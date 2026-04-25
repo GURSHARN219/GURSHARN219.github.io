@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gursharn Singh | Portfolio v2</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Tailwind CSS via CDN for rapid scaffolding & modern UI -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Tailwind config for custom branding -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            mono: ['Fira Code', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#f5f3ff',
+              100: '#ede9fe',
+              500: '#8b5cf6',
+              600: '#7c3aed',
+              900: '#4c1d95',
+              950: '#2e1065',
+            },
+            dark: {
+              bg: '#030712',
+              card: '#111827',
+              border: '#1f2937'
+            }
+          },
+          animation: {
+            'blob': 'blob 7s infinite',
+            'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+          },
+          keyframes: {
+            blob: {
+              '0%': { transform: 'translate(0px, 0px) scale(1)' },
+              '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+              '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+              '100%': { transform: 'translate(0px, 0px) scale(1)' },
+            },
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #030712;
+      color: #f3f4f6;
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #030712; 
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #4b5563; 
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #8b5cf6; 
+    }
+
+    /* Glassmorphism Utilities */
+    .glass-nav {
+      background: rgba(3, 7, 18, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .glass-card {
+      background: rgba(17, 24, 39, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .glass-card:hover {
+      border-color: rgba(139, 92, 246, 0.4);
+      background: rgba(17, 24, 39, 0.8);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 40px -10px rgba(139, 92, 246, 0.15);
+    }
+
+    .text-gradient {
+      background: linear-gradient(to right, #a78bfa, #2dd4bf);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .shimmer {
+      background: #1f2937;
+      background-image: linear-gradient(to right, #1f2937 0%, #374151 20%, #1f2937 40%, #1f2937 100%);
+      background-repeat: no-repeat;
+      background-size: 800px 100%; 
+      animation-duration: 2s;
+      animation-fill-mode: forwards; 
+      animation-iteration-count: infinite;
+      animation-name: placeholderShimmer;
+      animation-timing-function: linear;
+    }
+    @keyframes placeholderShimmer {
+      0% { background-position: -468px 0; }
+      100% { background-position: 468px 0; }
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-brand-500 selection:text-white">
+
+  <!-- Background decorative blobs -->
+  <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+    <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-brand-600/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob"></div>
+    <div class="absolute top-[20%] right-[-10%] w-96 h-96 bg-teal-600/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob animation-delay-2000"></div>
+    <div class="absolute bottom-[-20%] left-[20%] w-96 h-96 bg-fuchsia-600/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob animation-delay-4000"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <a href="#" class="font-mono font-bold text-xl tracking-tighter hover:text-brand-500 transition-colors">
+        GURSHARN<span class="text-teal-400">@219</span>
+      </a>
+      
+      <div class="hidden md:flex items-center space-x-8 font-mono text-sm">
+        <a href="#about" class="text-gray-400 hover:text-white transition-colors">/about</a>
+        <a href="#projects" class="text-gray-400 hover:text-white transition-colors">/projects</a>
+        <a href="#unworldx" class="text-gray-400 hover:text-white transition-colors">/unworldx</a>
+        <a href="#contact" class="text-gray-400 hover:text-white transition-colors">/contact</a>
+      </div>
+
+      <button class="md:hidden text-gray-400 hover:text-white" id="menuBtn">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div class="md:hidden hidden bg-dark-bg/95 backdrop-blur-xl border-b border-dark-border absolute w-full" id="mobileMenu">
+      <div class="flex flex-col px-6 py-4 space-y-4 font-mono text-sm">
+        <a href="#about" class="text-gray-400 hover:text-white">/about</a>
+        <a href="#projects" class="text-gray-400 hover:text-white">/projects</a>
+        <a href="#unworldx" class="text-gray-400 hover:text-white">/unworldx</a>
+        <a href="#contact" class="text-gray-400 hover:text-white">/contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative min-h-screen flex items-center justify-center pt-20 px-6">
+    <div class="max-w-4xl mx-auto text-center z-10 animate-fade-in-up">
+      <div class="mb-8 relative inline-block">
+        <div class="absolute inset-0 bg-gradient-to-tr from-brand-500 to-teal-400 rounded-full blur-xl opacity-40 animate-pulse"></div>
+        <img id="heroAvatar" src="" alt="Gursharn" class="relative w-32 h-32 rounded-full border-2 border-dark-border object-cover hidden shadow-2xl">
+        <div id="avatarShimmer" class="relative w-32 h-32 rounded-full shimmer"></div>
+      </div>
+      
+      <h1 class="text-5xl md:text-7xl font-bold font-sans tracking-tight mb-6">
+        Building things that <br/> <span class="text-gradient">don't exist yet.</span>
+      </h1>
+      
+      <div class="font-mono text-lg md:text-xl text-gray-400 mb-10 h-8 flex justify-center items-center">
+        <span id="typewriter"></span><span class="w-2 h-6 bg-teal-400 ml-1 animate-pulse"></span>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-4 mb-12 font-mono text-xs md:text-sm">
+        <span class="px-4 py-2 rounded-full bg-brand-500/10 text-brand-400 border border-brand-500/20">🧠 AI Researcher</span>
+        <span class="px-4 py-2 rounded-full bg-teal-500/10 text-teal-400 border border-teal-500/20">⚙️ Systems Builder</span>
+        <span class="px-4 py-2 rounded-full bg-fuchsia-500/10 text-fuchsia-400 border border-fuchsia-500/20">🚀 unworldX Founder</span>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="#projects" class="px-8 py-3 rounded-lg bg-white text-black font-semibold hover:bg-gray-200 transition-colors flex items-center gap-2">
+          <i data-lucide="folder-git-2" class="w-5 h-5"></i> View Work
+        </a>
+        <a href="https://github.com/GURSHARN219" target="_blank" class="px-8 py-3 rounded-lg glass-card font-semibold hover:text-brand-400 transition-colors flex items-center gap-2">
+          <i data-lucide="github" class="w-5 h-5"></i> GitHub Profile
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bento Grid About / Stats -->
+  <section id="about" class="py-24 px-6 relative z-10">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex items-center gap-4 mb-12">
+        <div class="h-px bg-dark-border flex-1"></div>
+        <h2 class="font-mono text-sm text-brand-400 tracking-widest uppercase">system.info</h2>
+        <div class="h-px bg-dark-border flex-1"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        
+        <!-- Bio Card (Spans 2 cols, 2 rows) -->
+        <div class="glass-card rounded-2xl p-8 md:col-span-2 md:row-span-2 flex flex-col justify-center">
+          <div class="w-12 h-12 rounded-full bg-brand-500/20 flex items-center justify-center mb-6 text-brand-400">
+            <i data-lucide="terminal"></i>
+          </div>
+          <h3 class="text-2xl font-bold mb-4">About Me</h3>
+          <p class="text-gray-400 leading-relaxed mb-4">
+            I'm a systems builder and AI researcher from Punjab, India. I am leading <strong class="text-white">unworldX</strong>, building advanced AI reasoning models, designing custom programming languages like AETHER, and training LLMs on consumer hardware.
+          </p>
+          <p class="text-gray-400 leading-relaxed">
+            When I'm not coding, I'm designing small-scale jet engines or working on combat robotics. 
+          </p>
+        </div>
+
+        <!-- GitHub Stats Cards -->
+        <div class="glass-card rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+          <i data-lucide="book-marked" class="text-teal-400 mb-2 w-8 h-8"></i>
+          <span class="text-4xl font-bold text-white mb-1" id="statRepos">-</span>
+          <span class="text-sm font-mono text-gray-500 uppercase">Public Repos</span>
+        </div>
+        
+        <div class="glass-card rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+          <i data-lucide="star" class="text-yellow-400 mb-2 w-8 h-8"></i>
+          <span class="text-4xl font-bold text-white mb-1" id="statStars">-</span>
+          <span class="text-sm font-mono text-gray-500 uppercase">Total Stars</span>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+          <i data-lucide="users" class="text-fuchsia-400 mb-2 w-8 h-8"></i>
+          <span class="text-4xl font-bold text-white mb-1" id="statFollowers">-</span>
+          <span class="text-sm font-mono text-gray-500 uppercase">Followers</span>
+        </div>
+
+        <!-- Tech Stack Card -->
+        <div class="glass-card rounded-2xl p-6">
+          <h4 class="font-mono text-sm text-gray-500 uppercase mb-4">Core Stack</h4>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 bg-dark-bg border border-dark-border rounded text-sm text-gray-300">Python</span>
+            <span class="px-3 py-1 bg-dark-bg border border-dark-border rounded text-sm text-gray-300">Rust</span>
+            <span class="px-3 py-1 bg-dark-bg border border-dark-border rounded text-sm text-gray-300">C++</span>
+            <span class="px-3 py-1 bg-dark-bg border border-dark-border rounded text-sm text-gray-300">TypeScript</span>
+            <span class="px-3 py-1 bg-dark-bg border border-dark-border rounded text-sm text-gray-300">PyTorch</span>
+            <span class="px-3 py-1 bg-dark-bg border border-dark-border rounded text-sm text-gray-300">CUDA</span>
+            <span class="px-3 py-1 bg-dark-bg border border-dark-border rounded text-sm text-gray-300">Go</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="py-24 px-6 relative z-10 bg-dark-bg/50">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <h2 class="font-mono text-sm text-teal-400 tracking-widest uppercase border-l-2 border-teal-400 pl-3 mb-2">execute.projects()</h2>
+          <h3 class="text-4xl font-bold">Featured Repositories</h3>
+        </div>
+        
+        <!-- Controls -->
+        <div class="flex flex-wrap gap-4 items-center">
+          <div class="relative">
+            <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500"></i>
+            <input type="text" id="searchInput" placeholder="Search repos..." class="bg-dark-card border border-dark-border rounded-lg pl-10 pr-4 py-2 text-sm font-mono focus:outline-none focus:border-brand-500 w-full md:w-64 transition-colors">
+          </div>
+          <button id="toggleForks" class="glass-card px-4 py-2 rounded-lg text-sm font-mono flex items-center gap-2 text-gray-400 hover:text-white">
+            <i data-lucide="git-fork" class="w-4 h-4"></i> <span id="forksText">Hide Forks</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Loading State grid -->
+      <div id="loadingGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="glass-card rounded-xl p-6 h-48 shimmer"></div>
+        <div class="glass-card rounded-xl p-6 h-48 shimmer"></div>
+        <div class="glass-card rounded-xl p-6 h-48 shimmer"></div>
+      </div>
+
+      <!-- Real Grid -->
+      <div id="projectsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
+        <!-- Rendered via JS -->
+      </div>
+      
+      <div id="noResults" class="hidden text-center py-20 font-mono text-gray-500">
+        <i data-lucide="ghost" class="w-12 h-12 mx-auto mb-4 opacity-50"></i>
+        <p>No repositories found.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- unworldX / Org Section -->
+  <section id="unworldx" class="py-24 px-6 relative z-10">
+    <div class="max-w-7xl mx-auto">
+      <div class="glass-card rounded-3xl p-8 md:p-12 mb-12 border-brand-500/20 relative overflow-hidden">
+        <div class="absolute top-0 right-0 p-32 bg-brand-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+        
+        <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+          <div class="flex items-center gap-6">
+            <img src="https://avatars.githubusercontent.com/u/179328101?v=4" alt="unworldX" class="w-20 h-20 rounded-2xl border border-dark-border">
+            <div>
+              <h2 class="text-3xl font-bold mb-2">unworldX</h2>
+              <p class="text-gray-400 max-w-lg">Building the next generation of intelligent software — AI editors, learning platforms, and creative interfaces.</p>
+            </div>
+          </div>
+          <a href="https://github.com/unworldX" target="_blank" class="px-6 py-3 bg-brand-600 hover:bg-brand-500 rounded-lg font-semibold transition-colors flex items-center gap-2 whitespace-nowrap">
+            <i data-lucide="building-2" class="w-5 h-5"></i> View Organization
+          </a>
+        </div>
+      </div>
+
+      <h3 class="font-mono text-sm text-brand-400 tracking-widest uppercase mb-6 pl-2">Org Repositories</h3>
+      <div id="orgGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- JS Rendered -->
+        <div class="glass-card rounded-xl p-6 h-32 shimmer"></div>
+        <div class="glass-card rounded-xl p-6 h-32 shimmer"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact / Footer -->
+  <section id="contact" class="py-24 px-6 relative z-10 border-t border-dark-border bg-dark-bg mt-12">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-4xl font-bold mb-8">Let's Connect</h2>
+      <p class="text-gray-400 mb-12 max-w-xl mx-auto">
+        Always open to discussing AI, systems engineering, new programming concepts, or anything ambitious. Drop a message to say hi.
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-4 mb-24">
+        <a href="mailto:tempstox@gmail.com" class="p-4 rounded-xl glass-card flex items-center gap-3 hover:text-brand-400">
+          <i data-lucide="mail"></i> <span class="font-mono text-sm">tempstox@gmail.com</span>
+        </a>
+        <a href="https://x.com/Gursharn_sidhu_" target="_blank" class="p-4 rounded-xl glass-card flex items-center gap-3 hover:text-brand-400">
+          <i data-lucide="twitter"></i> <span class="font-mono text-sm">@Gursharn_sidhu_</span>
+        </a>
+        <a href="https://github.com/GURSHARN219" target="_blank" class="p-4 rounded-xl glass-card flex items-center gap-3 hover:text-brand-400">
+          <i data-lucide="github"></i> <span class="font-mono text-sm">GitHub</span>
+        </a>
+      </div>
+
+      <div class="font-mono text-xs text-gray-600 flex flex-col items-center gap-2">
+        <p>Built by Gursharn Singh © 2025. Powered by GitHub API.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Initialize Scripts -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Typewriter Effect
+    const phrases = [
+      "AI Reasoning Models",
+      "Custom Compilers & Languages",
+      "LLM Fine-tuning Pipelines",
+      "Small-scale Jet Engines",
+      "Systems Engineering"
+    ];
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let typeSpeed = 100;
+    const typewriterEl = document.getElementById('typewriter');
+
+    function typeEffect() {
+      const currentPhrase = phrases[phraseIndex];
+      
+      if (isDeleting) {
+        typewriterEl.innerText = currentPhrase.substring(0, charIndex - 1);
+        charIndex--;
+        typeSpeed = 50;
+      } else {
+        typewriterEl.innerText = currentPhrase.substring(0, charIndex + 1);
+        charIndex++;
+        typeSpeed = 100;
+      }
+
+      if (!isDeleting && charIndex === currentPhrase.length) {
+        isDeleting = true;
+        typeSpeed = 1500; // Pause at end
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        typeSpeed = 500; // Pause before new word
+      }
+      setTimeout(typeEffect, typeSpeed);
+    }
+    setTimeout(typeEffect, 1000);
+
+    // Mobile Menu Toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // GitHub API Integration
+    const GH_USER = 'GURSHARN219';
+    const GH_ORG = 'unworldX';
+    let allRepos = [];
+    let showForksFilter = false;
+
+    async function fetchGitHubData() {
+      try {
+        const [userRes, reposRes, orgReposRes] = await Promise.all([
+          fetch(`https://api.github.com/users/${GH_USER}`),
+          fetch(`https://api.github.com/users/${GH_USER}/repos?per_page=100&sort=updated`),
+          fetch(`https://api.github.com/orgs/${GH_ORG}/repos?sort=updated&per_page=6`)
+        ]);
+
+        if (userRes.ok && reposRes.ok) {
+          const user = await userRes.json();
+          allRepos = await reposRes.json();
+
+          // Update UI
+          document.getElementById('avatarShimmer').style.display = 'none';
+          const avatar = document.getElementById('heroAvatar');
+          avatar.src = user.avatar_url;
+          avatar.classList.remove('hidden');
+
+          document.getElementById('statRepos').innerText = user.public_repos;
+          document.getElementById('statFollowers').innerText = user.followers;
+          
+          const totalStars = allRepos.reduce((acc, repo) => acc + repo.stargazers_count, 0);
+          document.getElementById('statStars').innerText = totalStars;
+
+          renderProjects();
+        }
+
+        if(orgReposRes.ok) {
+           const orgRepos = await orgReposRes.json();
+           renderOrgProjects(orgRepos);
+        }
+
+      } catch (error) {
+        console.error('Error fetching GH data:', error);
+        document.getElementById('loadingGrid').innerHTML = '<p class="text-red-400 font-mono">Failed to load API data. Check console or rate limits.</p>';
+      }
+    }
+
+    function createRepoCard(repo) {
+      const isFork = repo.fork;
+      const lang = repo.language || 'Unknown';
+      const updated = new Date(repo.updated_at).toLocaleDateString();
+      
+      return `
+        <a href="${repo.html_url}" target="_blank" class="glass-card rounded-xl p-6 flex flex-col group h-full hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden">
+          ${isFork ? '<div class="absolute top-0 right-0 bg-dark-border text-gray-400 text-xs px-3 py-1 font-mono rounded-bl-lg">Fork</div>' : ''}
+          <div class="flex items-center gap-3 mb-4">
+            <i data-lucide="book-open" class="text-brand-400"></i>
+            <h3 class="font-bold text-lg text-white group-hover:text-brand-400 transition-colors truncate">${repo.name}</h3>
+          </div>
+          <p class="text-sm text-gray-400 mb-6 flex-grow line-clamp-3">${repo.description || 'No description provided.'}</p>
+          <div class="flex items-center justify-between text-xs font-mono text-gray-500 mt-auto border-t border-dark-border pt-4">
+            <div class="flex items-center gap-4">
+              <span class="flex items-center gap-1.5"><div class="w-2 h-2 rounded-full bg-teal-400"></div>${lang}</span>
+              ${repo.stargazers_count > 0 ? `<span class="flex items-center gap-1"><i data-lucide="star" class="w-3 h-3"></i>${repo.stargazers_count}</span>` : ''}
+            </div>
+            <span>${updated}</span>
+          </div>
+        </a>
+      `;
+    }
+
+    function renderProjects() {
+      document.getElementById('loadingGrid').classList.add('hidden');
+      const grid = document.getElementById('projectsGrid');
+      const noResults = document.getElementById('noResults');
+      
+      grid.classList.remove('hidden');
+      
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = allRepos.filter(repo => {
+        const matchesQuery = repo.name.toLowerCase().includes(query) || (repo.description && repo.description.toLowerCase().includes(query));
+        const matchesFork = showForksFilter ? true : !repo.fork;
+        return matchesQuery && matchesFork;
+      });
+
+      if (filtered.length === 0) {
+        grid.classList.add('hidden');
+        noResults.classList.remove('hidden');
+      } else {
+        noResults.classList.add('hidden');
+        grid.classList.remove('hidden');
+        grid.innerHTML = filtered.map(createRepoCard).join('');
+        lucide.createIcons(); // re-init icons for new HTML
+      }
+    }
+
+    function renderOrgProjects(repos) {
+      const grid = document.getElementById('orgGrid');
+      if(!repos.length) {
+         grid.innerHTML = '<p class="text-gray-500 font-mono">No public repositories in org yet.</p>';
+         return;
+      }
+      grid.innerHTML = repos.map(createRepoCard).join('');
+      lucide.createIcons();
+    }
+
+    // Filters
+    document.getElementById('searchInput').addEventListener('input', renderProjects);
+    const toggleForksBtn = document.getElementById('toggleForks');
+    toggleForksBtn.addEventListener('click', () => {
+      showForksFilter = !showForksFilter;
+      document.getElementById('forksText').innerText = showForksFilter ? 'Hide Forks' : 'Show Forks';
+      if(showForksFilter) {
+        toggleForksBtn.classList.add('text-white', 'border-brand-500');
+      } else {
+        toggleForksBtn.classList.remove('text-white', 'border-brand-500');
+      }
+      renderProjects();
+    });
+
+    // Start
+    fetchGitHubData();
+
+  </script>
+</body>
+</html>

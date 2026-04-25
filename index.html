@@ -1,708 +1,1242 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gursharn Singh - Developer Portfolio</title>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gursharn Singh — Builder & AI Researcher</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    /* ─── CSS VARIABLES ──────────────────────────────────────────────── */
+    :root {
+      --bg:        #060810;
+      --surface:   #0b0f1a;
+      --card:      #0e1520;
+      --card-h:    #121c2e;
+      --border:    rgba(139,92,246,.14);
+      --border-h:  rgba(139,92,246,.4);
+      --accent:    #8b5cf6;
+      --accent2:   #06b6d4;
+      --accent3:   #10b981;
+      --glow:      rgba(139,92,246,.25);
+      --text:      #dde4f0;
+      --muted:     #5a6a8a;
+      --muted2:    #8899bb;
+      --font-head: 'Unbounded', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
 
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        line-height: 1.6;
-        color: #333;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-      }
+    /* ─── RESET ──────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; }
 
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-      }
+    /* ─── SCROLLBAR ──────────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
 
-      header {
-        text-align: center;
-        color: white;
-        margin-bottom: 40px;
-        padding: 60px 0;
-      }
+    /* ─── NAV ────────────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 64px;
+      background: rgba(6,8,16,.75);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: background .3s;
+    }
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: .95rem;
+      color: var(--accent);
+      letter-spacing: .04em;
+    }
+    .nav-logo span { color: var(--accent2); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: .85rem;
+      color: var(--muted2);
+      letter-spacing: .05em;
+      transition: color .2s;
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.2rem; cursor: pointer; }
 
-      .profile-img {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        margin: 0 auto 20px;
-        background: rgba(255, 255, 255, 0.2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 60px;
-        color: white;
-      }
+    /* ─── CANVAS HERO ────────────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    #neural-canvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      opacity: .5;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center;
+      padding: 120px 5% 80px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .avatar-ring {
+      position: relative;
+      width: 130px; height: 130px;
+      margin: 0 auto 32px;
+    }
+    .avatar-ring::before {
+      content: '';
+      position: absolute; inset: -4px;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent), var(--accent2), var(--accent3), var(--accent));
+      animation: spin 4s linear infinite;
+    }
+    .avatar-ring::after {
+      content: '';
+      position: absolute; inset: -6px;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent), var(--accent2), var(--accent3), var(--accent));
+      opacity: .3;
+      filter: blur(8px);
+      animation: spin 4s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .avatar-img {
+      position: relative; z-index: 1;
+      width: 130px; height: 130px;
+      border-radius: 50%;
+      border: 3px solid var(--bg);
+      object-fit: cover;
+      background: var(--card);
+    }
+    .avatar-skeleton {
+      position: absolute; inset: 0; z-index: 1;
+      border-radius: 50%;
+      background: linear-gradient(90deg, var(--card) 25%, var(--card-h) 50%, var(--card) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
 
-      h1 {
-        font-size: 3em;
-        margin-bottom: 10px;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-      }
+    .hero-name {
+      font-family: var(--font-head);
+      font-size: clamp(2.2rem, 6vw, 4.2rem);
+      font-weight: 900;
+      line-height: 1.1;
+      background: linear-gradient(120deg, #fff 20%, var(--accent) 60%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+    }
+    .typing-wrapper {
+      font-family: var(--font-mono);
+      font-size: clamp(.9rem, 2.5vw, 1.15rem);
+      color: var(--muted2);
+      margin-bottom: 32px;
+      min-height: 1.6em;
+    }
+    .typing-cursor {
+      display: inline-block;
+      width: 2px; height: 1.1em;
+      background: var(--accent2);
+      vertical-align: text-bottom;
+      animation: blink .7s step-end infinite;
+      margin-left: 2px;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
 
-      .tagline {
-        font-size: 1.3em;
-        opacity: 0.9;
-        margin-bottom: 30px;
-      }
+    .hero-badges {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+      margin-bottom: 40px;
+    }
+    .badge {
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border-h);
+      color: var(--accent);
+      background: rgba(139,92,246,.08);
+      letter-spacing: .05em;
+      transition: all .25s;
+    }
+    .badge:hover { background: rgba(139,92,246,.18); transform: translateY(-1px); }
+    .badge.cyan { color: var(--accent2); border-color: rgba(6,182,212,.4); background: rgba(6,182,212,.08); }
+    .badge.cyan:hover { background: rgba(6,182,212,.18); }
+    .badge.green { color: var(--accent3); border-color: rgba(16,185,129,.4); background: rgba(16,185,129,.08); }
 
-      .social-links {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        margin-top: 20px;
-      }
+    .hero-cta { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; border-radius: 8px;
+      font-family: var(--font-mono); font-size: .85rem; font-weight: 500;
+      letter-spacing: .05em; transition: all .25s; cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 24px rgba(139,92,246,.4);
+    }
+    .btn-primary:hover { background: #7c3aed; box-shadow: 0 0 36px rgba(139,92,246,.6); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border-h);
+    }
+    .btn-outline:hover { border-color: var(--accent2); color: var(--accent2); transform: translateY(-2px); }
 
-      .social-links a {
-        color: white;
-        font-size: 1.5em;
-        text-decoration: none;
-        transition: transform 0.3s ease;
-      }
+    /* ─── SECTION LAYOUT ─────────────────────────────────────────────── */
+    section { padding: 100px 5%; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      color: var(--accent2);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      margin-bottom: 48px;
+      line-height: 1.15;
+    }
+    .section-title em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
-      .social-links a:hover {
-        transform: scale(1.2);
-      }
+    /* ─── STATS STRIP ────────────────────────────────────────────────── */
+    #stats {
+      padding: 60px 5%;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stats-grid {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0;
+    }
+    .stat-card {
+      text-align: center; padding: 32px 20px;
+      border-right: 1px solid var(--border);
+      position: relative;
+      transition: background .25s;
+    }
+    .stat-card:last-child { border-right: none; }
+    .stat-card:hover { background: rgba(139,92,246,.05); }
+    .stat-num {
+      font-family: var(--font-head);
+      font-size: 2.6rem;
+      font-weight: 900;
+      background: linear-gradient(120deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-lbl { font-size: .85rem; color: var(--muted2); letter-spacing: .04em; }
+    .stat-skeleton .stat-num {
+      background: linear-gradient(90deg, var(--card) 25%, var(--card-h) 50%, var(--card) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      -webkit-text-fill-color: transparent;
+      border-radius: 4px;
+    }
 
-      .projects-section {
-        background: white;
-        border-radius: 20px;
-        padding: 40px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        margin-bottom: 40px;
-      }
+    /* ─── ABOUT ──────────────────────────────────────────────────────── */
+    #about .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
+    }
+    .about-text p { color: var(--muted2); margin-bottom: 16px; font-size: 1.05rem; }
+    .about-text p strong { color: var(--text); }
+    .terminal-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 24px;
+    }
+    .terminal-bar {
+      background: rgba(139,92,246,.1);
+      padding: 10px 16px;
+      display: flex; align-items: center; gap: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot.red { background: #ff5f57; }
+    .dot.yellow { background: #ffbd2e; }
+    .dot.green { background: #28c940; }
+    .terminal-body {
+      padding: 20px;
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      line-height: 1.8;
+      color: var(--muted2);
+    }
+    .terminal-body .cmd { color: var(--accent3); }
+    .terminal-body .str { color: #fbbf24; }
+    .terminal-body .key { color: var(--accent2); }
+    .terminal-body .cmt { color: var(--muted); }
 
-      .section-title {
-        text-align: center;
-        font-size: 2.5em;
-        margin-bottom: 40px;
-        color: #333;
-        position: relative;
-      }
+    .skills-wrap { }
+    .skills-group { margin-bottom: 28px; }
+    .skills-group h4 {
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      color: var(--muted);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .skill-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      display: flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 6px;
+      font-size: .82rem; font-family: var(--font-mono);
+      background: var(--card);
+      border: 1px solid var(--border);
+      transition: all .2s;
+    }
+    .chip:hover { border-color: var(--border-h); background: var(--card-h); transform: translateY(-1px); }
+    .chip-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
-      .section-title::after {
-        content: "";
-        position: absolute;
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 100px;
-        height: 4px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 2px;
-      }
+    /* ─── PROJECTS ───────────────────────────────────────────────────── */
+    #projects { background: var(--surface); }
+    .filter-bar {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      align-items: center; margin-bottom: 40px;
+    }
+    .search-wrap {
+      position: relative; flex: 1; min-width: 200px; max-width: 340px;
+    }
+    .search-wrap i {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      color: var(--muted); font-size: .9rem;
+    }
+    .search-input {
+      width: 100%;
+      padding: 10px 14px 10px 38px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; color: var(--text);
+      font-family: var(--font-mono); font-size: .85rem;
+      transition: border .2s;
+      outline: none;
+    }
+    .search-input:focus { border-color: var(--accent); }
+    .search-input::placeholder { color: var(--muted); }
 
-      .projects-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 30px;
-        margin-top: 40px;
-      }
+    .lang-filters { display: flex; flex-wrap: wrap; gap: 8px; }
+    .lang-btn {
+      padding: 6px 14px; border-radius: 20px;
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--muted2); font-family: var(--font-mono); font-size: .78rem;
+      cursor: pointer; transition: all .2s; letter-spacing: .04em;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .lang-btn:hover, .lang-btn.active {
+      border-color: var(--accent); color: var(--accent);
+      background: rgba(139,92,246,.1);
+    }
+    .lang-dot { width: 8px; height: 8px; border-radius: 50%; }
 
-      .project-card {
-        background: #f8f9fa;
-        border-radius: 15px;
-        padding: 25px;
-        transition: all 0.3s ease;
-        border: 1px solid #e9ecef;
-        position: relative;
-        overflow: hidden;
-      }
+    .sort-select {
+      padding: 8px 12px;
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--text); border-radius: 8px;
+      font-family: var(--font-mono); font-size: .8rem;
+      cursor: pointer; outline: none;
+    }
+    .sort-select:focus { border-color: var(--accent); }
 
-      .project-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      }
+    .fork-toggle {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--font-mono); font-size: .8rem; color: var(--muted2);
+      cursor: pointer;
+    }
+    .toggle-switch {
+      width: 36px; height: 20px; border-radius: 10px;
+      background: var(--card); border: 1px solid var(--border);
+      position: relative; transition: background .2s; flex-shrink: 0;
+    }
+    .toggle-switch::after {
+      content: '';
+      position: absolute; top: 3px; left: 3px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--muted); transition: all .2s;
+    }
+    .fork-toggle.on .toggle-switch { background: rgba(139,92,246,.3); border-color: var(--accent); }
+    .fork-toggle.on .toggle-switch::after { left: 19px; background: var(--accent); }
 
-      .project-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-      }
+    .results-count {
+      font-family: var(--font-mono);
+      font-size: .8rem; color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .results-count span { color: var(--accent2); }
 
-      .project-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 15px;
-      }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+    }
 
-      .project-title {
-        font-size: 1.4em;
-        font-weight: 600;
-        color: #333;
-        text-decoration: none;
-      }
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: all .3s;
+      display: flex; flex-direction: column;
+      position: relative; overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp .5s ease forwards;
+    }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    .project-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .3s;
+    }
+    .project-card:hover {
+      border-color: var(--border-h);
+      background: var(--card-h);
+      box-shadow: 0 8px 40px rgba(139,92,246,.1);
+      transform: translateY(-4px);
+    }
+    .project-card:hover::before { transform: scaleX(1); }
 
-      .project-title:hover {
-        color: #667eea;
-      }
+    .card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+    .card-icon { font-size: 1.2rem; color: var(--muted); }
+    .card-icon.fork { color: var(--accent2); }
+    .card-badges-top { display: flex; gap: 6px; flex-wrap: wrap; }
+    .pill {
+      font-size: .7rem; font-family: var(--font-mono);
+      padding: 3px 8px; border-radius: 10px;
+      border: 1px solid;
+    }
+    .pill-public { color: var(--accent3); border-color: rgba(16,185,129,.4); background: rgba(16,185,129,.1); }
+    .pill-fork { color: var(--accent2); border-color: rgba(6,182,212,.4); background: rgba(6,182,212,.1); }
+    .pill-private { color: #f59e0b; border-color: rgba(245,158,11,.4); background: rgba(245,158,11,.1); }
 
-      .project-meta {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        margin-bottom: 15px;
-      }
+    .card-name {
+      font-family: var(--font-mono);
+      font-size: 1rem; font-weight: 600;
+      color: var(--text); margin-bottom: 10px;
+      transition: color .2s;
+    }
+    .project-card:hover .card-name { color: var(--accent); }
 
-      .language-tag {
-        background: #667eea;
-        color: white;
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 0.8em;
-        font-weight: 500;
-      }
+    .card-desc {
+      font-size: .88rem; color: var(--muted2); line-height: 1.6;
+      flex: 1; margin-bottom: 20px;
+    }
+    .card-desc.empty { color: var(--muted); font-style: italic; }
 
-      .language-tag.python {
-        background: #3776ab;
-      }
+    .card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 16px; border-top: 1px solid var(--border);
+      flex-wrap: wrap; gap: 8px;
+    }
+    .card-meta { display: flex; align-items: center; gap: 14px; }
+    .lang-chip { display: flex; align-items: center; gap: 5px; font-size: .78rem; font-family: var(--font-mono); color: var(--muted2); }
+    .lang-chip-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .card-stat { display: flex; align-items: center; gap: 4px; font-size: .78rem; color: var(--muted2); }
+    .card-stat i { font-size: .75rem; }
+    .card-stat .fa-star { color: #fbbf24; }
+    .card-stat .fa-code-branch { color: var(--accent2); }
+    .card-updated { font-size: .75rem; color: var(--muted); font-family: var(--font-mono); }
+    .card-link {
+      width: 30px; height: 30px; border-radius: 6px;
+      background: rgba(139,92,246,.1); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted2); font-size: .9rem; transition: all .2s;
+    }
+    .card-link:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
 
-      .language-tag.typescript {
-        background: #3178c6;
-      }
+    /* skeleton card */
+    .skeleton-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px;
+      animation: shimmer 1.5s infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .skel {
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--card) 25%, var(--card-h) 50%, var(--card) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+    .skel-title { height: 18px; width: 60%; margin-bottom: 12px; }
+    .skel-text { height: 12px; width: 100%; margin-bottom: 8px; }
+    .skel-text.w80 { width: 80%; }
+    .skel-text.w50 { width: 50%; }
+    .skel-meta { height: 10px; width: 30%; margin-top: 20px; }
 
-      .license-tag {
-        background: #28a745;
-        color: white;
-        padding: 4px 8px;
-        border-radius: 12px;
-        font-size: 0.7em;
-      }
+    .empty-state {
+      grid-column: 1/-1;
+      text-align: center; padding: 80px 20px;
+      color: var(--muted);
+    }
+    .empty-state i { font-size: 3rem; margin-bottom: 16px; opacity: .4; display: block; }
+    .empty-state p { font-family: var(--font-mono); font-size: .9rem; }
 
-      .stars {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        color: #ffc107;
-      }
+    /* ─── ORG SECTION ────────────────────────────────────────────────── */
+    #org .org-header {
+      display: flex; align-items: center; gap: 20px; margin-bottom: 48px;
+      padding: 24px; background: var(--card);
+      border: 1px solid var(--border); border-radius: 12px;
+    }
+    .org-avatar {
+      width: 64px; height: 64px; border-radius: 12px;
+      border: 2px solid var(--border-h);
+      background: var(--card-h);
+    }
+    .org-info h3 {
+      font-family: var(--font-head); font-size: 1.3rem; font-weight: 700; margin-bottom: 4px;
+    }
+    .org-info p { color: var(--muted2); font-size: .9rem; }
+    .org-link {
+      margin-left: auto;
+    }
 
-      .project-description {
-        color: #666;
-        line-height: 1.6;
-        margin-bottom: 15px;
-      }
+    /* ─── CONTACT ─────────────────────────────────────────────────────── */
+    #contact { background: var(--surface); }
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    }
+    .contact-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px;
+      display: flex; align-items: center; gap: 16px;
+      transition: all .25s;
+    }
+    .contact-card:hover {
+      border-color: var(--border-h);
+      background: var(--card-h);
+      transform: translateY(-2px);
+    }
+    .contact-icon {
+      width: 48px; height: 48px; border-radius: 10px;
+      background: rgba(139,92,246,.1); border: 1px solid var(--border-h);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; flex-shrink: 0;
+    }
+    .contact-icon.cyan { background: rgba(6,182,212,.1); border-color: rgba(6,182,212,.4); color: var(--accent2); }
+    .contact-icon.violet { color: var(--accent); }
+    .contact-icon.red { background: rgba(239,68,68,.1); border-color: rgba(239,68,68,.4); color: #ef4444; }
+    .contact-icon.dark { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.1); color: var(--text); }
+    .contact-label { font-family: var(--font-mono); font-size: .78rem; color: var(--muted); margin-bottom: 4px; }
+    .contact-value { font-size: .95rem; color: var(--text); font-weight: 500; }
 
-      .project-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-top: 15px;
-        border-top: 1px solid #e9ecef;
-      }
+    /* ─── FOOTER ─────────────────────────────────────────────────────── */
+    footer {
+      text-align: center; padding: 40px 5%;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono); font-size: .8rem; color: var(--muted);
+    }
+    footer span { color: var(--accent); }
+    footer a { color: var(--muted2); transition: color .2s; }
+    footer a:hover { color: var(--accent); }
 
-      .updated-time {
-        color: #888;
-        font-size: 0.9em;
-      }
+    /* ─── TOAST ───────────────────────────────────────────────────────── */
+    .toast {
+      position: fixed; bottom: 32px; right: 32px; z-index: 999;
+      background: var(--card); border: 1px solid var(--border-h);
+      border-radius: 10px; padding: 14px 20px;
+      font-family: var(--font-mono); font-size: .82rem;
+      color: var(--text); box-shadow: 0 8px 32px rgba(0,0,0,.4);
+      transform: translateY(20px); opacity: 0;
+      transition: all .3s;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast i { color: var(--accent3); }
 
-      .project-links {
-        display: flex;
-        gap: 10px;
-      }
+    /* ─── RESPONSIVE ─────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      #about .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 680px) {
+      nav { padding: 0 4%; }
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); padding: 20px; gap: 16px; }
+      .nav-links.open { display: flex; }
+      .nav-toggle { display: block; }
+      section { padding: 72px 4%; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .stat-card { border-right: none; border-bottom: 1px solid var(--border); }
+      .stat-card:last-child { border-bottom: none; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .filter-bar { flex-direction: column; align-items: flex-start; }
+      .search-wrap { max-width: 100%; width: 100%; }
+      .org-header { flex-wrap: wrap; }
+      .org-link { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
 
-      .project-links a {
-        color: #667eea;
-        text-decoration: none;
-        font-size: 1.1em;
-        transition: color 0.3s ease;
-      }
+<!-- ═══ NAV ═══════════════════════════════════════════════════════════════ -->
+<nav id="navbar">
+  <div class="nav-logo">GURSHARN<span>@219</span></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#hero">home</a></li>
+    <li><a href="#about">about</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#org">unworldX</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="menu"><i class="fas fa-bars"></i></button>
+</nav>
 
-      .project-links a:hover {
-        color: #764ba2;
-      }
+<!-- ═══ HERO ══════════════════════════════════════════════════════════════ -->
+<section id="hero">
+  <canvas id="neural-canvas"></canvas>
+  <div class="hero-content">
+    <div class="avatar-ring">
+      <div class="avatar-skeleton" id="avatarSkel"></div>
+      <img class="avatar-img" id="heroAvatar" src="" alt="Gursharn Singh" style="display:none" />
+    </div>
+    <h1 class="hero-name">Gursharn Singh</h1>
+    <div class="typing-wrapper">
+      <span id="typingText"></span><span class="typing-cursor"></span>
+    </div>
+    <div class="hero-badges">
+      <span class="badge">🧠 AI Researcher</span>
+      <span class="badge cyan">⚙️ Systems Builder</span>
+      <span class="badge green">🚀 unworldX Founder</span>
+      <span class="badge">✈️ Jet Engine Designer</span>
+      <span class="badge cyan">🛠️ Language Creator</span>
+    </div>
+    <div class="hero-cta">
+      <a href="https://github.com/GURSHARN219" target="_blank" class="btn btn-primary">
+        <i class="fab fa-github"></i> GitHub Profile
+      </a>
+      <a href="#projects" class="btn btn-outline">
+        <i class="fas fa-code"></i> View Projects
+      </a>
+      <a href="#contact" class="btn btn-outline">
+        <i class="fas fa-paper-plane"></i> Connect
+      </a>
+    </div>
+  </div>
+</section>
 
-      .visibility-badge {
-        background: #6c757d;
-        color: white;
-        padding: 2px 8px;
-        border-radius: 10px;
-        font-size: 0.7em;
-        font-weight: 500;
-      }
+<!-- ═══ STATS ══════════════════════════════════════════════════════════════ -->
+<section id="stats">
+  <div class="stats-grid" id="statsGrid">
+    <div class="stat-card stat-skeleton"><div class="stat-num">—</div><div class="stat-lbl">Public Repos</div></div>
+    <div class="stat-card stat-skeleton"><div class="stat-num">—</div><div class="stat-lbl">Total Stars</div></div>
+    <div class="stat-card stat-skeleton"><div class="stat-num">—</div><div class="stat-lbl">Followers</div></div>
+    <div class="stat-card stat-skeleton"><div class="stat-num">—</div><div class="stat-lbl">Languages Used</div></div>
+    <div class="stat-card stat-skeleton"><div class="stat-num">—</div><div class="stat-lbl">unworldX Projects</div></div>
+  </div>
+</section>
 
-      .visibility-badge.public {
-        background: #28a745;
-      }
-
-      .visibility-badge.private {
-        background: #dc3545;
-      }
-
-      .stats-section {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 20px;
-        padding: 30px;
-        text-align: center;
-        color: white;
-        margin-bottom: 40px;
-      }
-
-      .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 30px;
-        margin-top: 20px;
-      }
-
-      .stat-item {
-        text-align: center;
-      }
-
-      .stat-number {
-        font-size: 2.5em;
-        font-weight: bold;
-        display: block;
-      }
-
-      .stat-label {
-        font-size: 1.1em;
-        opacity: 0.9;
-      }
-
-      footer {
-        text-align: center;
-        color: white;
-        padding: 40px 0;
-        opacity: 0.8;
-      }
-
-      @media (max-width: 768px) {
-        .container {
-          padding: 10px;
-        }
-
-        h1 {
-          font-size: 2.2em;
-        }
-
-        .projects-grid {
-          grid-template-columns: 1fr;
-          gap: 20px;
-        }
-
-        .project-header {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <header>
-        <div class="profile-img">
-          <i class="fas fa-user-circle"></i>
-        </div>
-        <h1>Gursharn Singh</h1>
-        <p class="tagline">
-          Full Stack Developer | AI/ML Enthusiast | Open Source Contributor
-        </p>
-        <div class="social-links">
-          <a
-            href="https://github.com/GURSHARN219"
-            target="_blank"
-            title="GitHub"
-          >
-            <i class="fab fa-github"></i>
-          </a>
-          <a
-            href="https://linkedin.com/in/gursharn219"
-            target="_blank"
-            title="LinkedIn"
-          >
-            <i class="fab fa-linkedin"></i>
-          </a>
-          <a href="mailto:your.email@example.com" title="Email">
-            <i class="fas fa-envelope"></i>
-          </a>
-        </div>
-      </header>
-
-      <div class="stats-section">
-        <h2>GitHub Statistics</h2>
-        <div class="stats-grid">
-          <div class="stat-item">
-            <span class="stat-number">10+</span>
-            <span class="stat-label">Public Repositories</span>
+<!-- ═══ ABOUT ══════════════════════════════════════════════════════════════ -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="section-label">// about.me</p>
+        <h2 class="section-title">Building things that <em>don't exist yet.</em></h2>
+        <p>I'm a systems builder and AI researcher from <strong>Punjab, India</strong> — currently leading <strong>unworldX</strong>, building advanced AI reasoning models (Neuralus), designing custom programming languages (AETHER & oglang), and training LLMs from scratch on consumer hardware.</p>
+        <p>When I'm not writing code I'm designing <strong>small-scale jet engines</strong> and working on combat robotics. I believe the most interesting problems live at the intersection of software, hardware, and intelligence.</p>
+        <p>Open to collaborating on <strong>multi-modal AI systems</strong>, open-source <strong>C++/Rust</strong> projects, and anything mechanically ambitious.</p>
+        <div class="terminal-block">
+          <div class="terminal-bar">
+            <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+            <span style="font-family:var(--font-mono);font-size:.75rem;color:var(--muted);margin-left:8px">gursharn.py</span>
           </div>
-          <div class="stat-item">
-            <span class="stat-number">5+</span>
-            <span class="stat-label">Programming Languages</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">3+</span>
-            <span class="stat-label">Stars Earned</span>
+          <div class="terminal-body">
+<span class="cmt"># current focus</span>
+<br><span class="key">building</span> = [
+<br>&nbsp;&nbsp;<span class="str">"Neuralus — AI reasoning model"</span>,
+<br>&nbsp;&nbsp;<span class="str">"AETHER & oglang langs"</span>,
+<br>&nbsp;&nbsp;<span class="str">"LLM fine-tuning pipelines"</span>,
+<br>]
+<br><span class="key">location</span> = <span class="str">"Punjab, India 🇮🇳"</span>
+<br><span class="key">email</span>&nbsp;&nbsp;&nbsp;= <span class="str">"tempstox@gmail.com"</span>
           </div>
         </div>
       </div>
 
-      <section class="projects-section">
-        <h2 class="section-title">Featured Projects</h2>
-        <div class="projects-grid">
-          <div class="project-card">
-            <div class="project-header">
-              <a
-                href="https://github.com/GURSHARN219/LibraryPro-Management-System"
-                class="project-title"
-                target="_blank"
-              >
-                LibraryPro-Management-System
-              </a>
-              <span class="visibility-badge public">Public</span>
-            </div>
-            <div class="project-meta">
-              <span class="language-tag python">Python</span>
-              <span class="license-tag">MIT License</span>
-            </div>
-            <div class="project-description">
-              A comprehensive library management system built with Python.
-              Features include book cataloging, member management,
-              borrowing/returning system, and automated fine calculations.
-            </div>
-            <div class="project-footer">
-              <span class="updated-time">Updated yesterday</span>
-              <div class="project-links">
-                <a
-                  href="https://github.com/GURSHARN219/LibraryPro-Management-System"
-                  target="_blank"
-                  title="View Repository"
-                >
-                  <i class="fab fa-github"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="project-card">
-            <div class="project-header">
-              <a
-                href="https://github.com/GURSHARN219/AI_voice_Assistant_both_cloud_local"
-                class="project-title"
-                target="_blank"
-              >
-                AI Voice Assistant (Cloud & Local)
-              </a>
-              <span class="visibility-badge public">Public</span>
-            </div>
-            <div class="project-meta">
-              <span class="language-tag python">Python</span>
-              <div class="stars">
-                <i class="fas fa-star"></i>
-                <span>2</span>
-              </div>
-            </div>
-            <div class="project-description">
-              An intelligent voice assistant that works both online and offline.
-              Features speech recognition, natural language processing, and
-              voice synthesis capabilities.
-            </div>
-            <div class="project-footer">
-              <span class="updated-time">Updated last week</span>
-              <div class="project-links">
-                <a
-                  href="https://github.com/GURSHARN219/AI_voice_Assistant_both_cloud_local"
-                  target="_blank"
-                  title="View Repository"
-                >
-                  <i class="fab fa-github"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="project-card">
-            <div class="project-header">
-              <a
-                href="https://github.com/GURSHARN219/custom-database-with-python"
-                class="project-title"
-                target="_blank"
-              >
-                Custom Database with Python
-              </a>
-              <span class="visibility-badge public">Public</span>
-            </div>
-            <div class="project-meta">
-              <span class="language-tag python">Python</span>
-            </div>
-            <div class="project-description">
-              A lightweight, custom-built database engine implemented in Python.
-              Features include CRUD operations, indexing, and basic query
-              processing.
-            </div>
-            <div class="project-footer">
-              <span class="updated-time">Updated last week</span>
-              <div class="project-links">
-                <a
-                  href="https://github.com/GURSHARN219/custom-database-with-python"
-                  target="_blank"
-                  title="View Repository"
-                >
-                  <i class="fab fa-github"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="project-card">
-            <div class="project-header">
-              <a
-                href="https://github.com/GURSHARN219/Universal-Downloader-GUI"
-                class="project-title"
-                target="_blank"
-              >
-                Universal Downloader GUI
-              </a>
-              <span class="visibility-badge public">Public</span>
-            </div>
-            <div class="project-meta">
-              <span class="language-tag python">Python</span>
-              <div class="stars">
-                <i class="fas fa-star"></i>
-                <span>1</span>
-              </div>
-            </div>
-            <div class="project-description">
-              A versatile download manager with a user-friendly GUI. Supports
-              multiple protocols and provides batch downloading capabilities
-              with progress tracking.
-            </div>
-            <div class="project-footer">
-              <span class="updated-time">Updated last week</span>
-              <div class="project-links">
-                <a
-                  href="https://github.com/GURSHARN219/Universal-Downloader-GUI"
-                  target="_blank"
-                  title="View Repository"
-                >
-                  <i class="fab fa-github"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="project-card">
-            <div class="project-header">
-              <a
-                href="https://github.com/GURSHARN219/realtime_speech-text-img2Speech"
-                class="project-title"
-                target="_blank"
-              >
-                Realtime Speech-Text-Image to Speech
-              </a>
-              <span class="visibility-badge public">Public</span>
-            </div>
-            <div class="project-meta">
-              <span class="language-tag python">Python</span>
-            </div>
-            <div class="project-description">
-              A multi-modal AI system that converts speech to text, processes
-              images, and generates speech output in real-time. Integrates
-              computer vision and NLP technologies.
-            </div>
-            <div class="project-footer">
-              <span class="updated-time">Updated 2 weeks ago</span>
-              <div class="project-links">
-                <a
-                  href="https://github.com/GURSHARN219/realtime_speech-text-img2Speech"
-                  target="_blank"
-                  title="View Repository"
-                >
-                  <i class="fab fa-github"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="project-card">
-            <div class="project-header">
-              <a
-                href="https://github.com/GURSHARN219/hosting-manage"
-                class="project-title"
-                target="_blank"
-              >
-                Hosting Management Tool
-              </a>
-              <span class="visibility-badge public">Public</span>
-            </div>
-            <div class="project-meta">
-              <span class="language-tag typescript">TypeScript</span>
-            </div>
-            <div class="project-description">
-              Web hosting management tool for beginners. Simplifies the process
-              of managing multiple websites across multiple servers with an
-              intuitive interface.
-            </div>
-            <div class="project-footer">
-              <span class="updated-time">Updated on Jun 30</span>
-              <div class="project-links">
-                <a
-                  href="https://github.com/GURSHARN219/hosting-manage"
-                  target="_blank"
-                  title="View Repository"
-                >
-                  <i class="fab fa-github"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="project-card">
-            <div class="project-header">
-              <a
-                href="https://github.com/GURSHARN219/DeepMimic_mujoco"
-                class="project-title"
-                target="_blank"
-              >
-                DeepMimic Mujoco
-              </a>
-              <span class="visibility-badge public">Public</span>
-            </div>
-            <div class="project-meta">
-              <span class="language-tag python">Python</span>
-              <span
-                style="
-                  background: #ff6b6b;
-                  color: white;
-                  padding: 2px 8px;
-                  border-radius: 10px;
-                  font-size: 0.7em;
-                "
-                >Forked</span
-              >
-            </div>
-            <div class="project-description">
-              DeepMimic Mujoco version implemented in Python only. A
-              physics-based character animation system without Bullet or C++
-              dependencies.
-            </div>
-            <div class="project-footer">
-              <span class="updated-time">Updated on Jun 8</span>
-              <div class="project-links">
-                <a
-                  href="https://github.com/GURSHARN219/DeepMimic_mujoco"
-                  target="_blank"
-                  title="View Repository"
-                >
-                  <i class="fab fa-github"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="project-card">
-            <div class="project-header">
-              <a
-                href="https://github.com/GURSHARN219/MotionGPT"
-                class="project-title"
-                target="_blank"
-              >
-                MotionGPT
-              </a>
-              <span class="visibility-badge public">Public</span>
-            </div>
-            <div class="project-meta">
-              <span class="language-tag python">Python</span>
-              <span class="license-tag">MIT License</span>
-              <span
-                style="
-                  background: #ff6b6b;
-                  color: white;
-                  padding: 2px 8px;
-                  border-radius: 10px;
-                  font-size: 0.7em;
-                "
-                >Forked</span
-              >
-            </div>
-            <div class="project-description">
-              [NeurIPS 2023] MotionGPT: Human Motion as a Foreign Language. A
-              unified motion-language generation model using Large Language
-              Models for human motion synthesis.
-            </div>
-            <div class="project-footer">
-              <span class="updated-time">Updated on Jun 8</span>
-              <div class="project-links">
-                <a
-                  href="https://github.com/GURSHARN219/MotionGPT"
-                  target="_blank"
-                  title="View Repository"
-                >
-                  <i class="fab fa-github"></i>
-                </a>
-              </div>
-            </div>
+      <div class="skills-wrap">
+        <p class="section-label" style="margin-bottom:24px">// tech.stack</p>
+        <div class="skills-group">
+          <h4>Languages</h4>
+          <div class="skill-chips">
+            <span class="chip"><span class="chip-dot" style="background:#3776ab"></span>Python</span>
+            <span class="chip"><span class="chip-dot" style="background:#dea584"></span>Rust</span>
+            <span class="chip"><span class="chip-dot" style="background:#f34b7d"></span>C++</span>
+            <span class="chip"><span class="chip-dot" style="background:#3178c6"></span>TypeScript</span>
+            <span class="chip"><span class="chip-dot" style="background:#00ADD8"></span>Go</span>
+            <span class="chip"><span class="chip-dot" style="background:#7F52FF"></span>Kotlin</span>
+            <span class="chip"><span class="chip-dot" style="background:#178600"></span>C#</span>
+            <span class="chip"><span class="chip-dot" style="background:#555555"></span>C</span>
           </div>
         </div>
-      </section>
+        <div class="skills-group">
+          <h4>AI / ML</h4>
+          <div class="skill-chips">
+            <span class="chip"><span class="chip-dot" style="background:#EE4C2C"></span>PyTorch</span>
+            <span class="chip"><span class="chip-dot" style="background:#FF6F00"></span>TensorFlow</span>
+            <span class="chip"><span class="chip-dot" style="background:#013243"></span>NumPy</span>
+            <span class="chip"><span class="chip-dot" style="background:#F7931E"></span>scikit-learn</span>
+            <span class="chip"><span class="chip-dot" style="background:#150458"></span>Pandas</span>
+            <span class="chip"><span class="chip-dot" style="background:#ffffff"></span>OpenCV</span>
+            <span class="chip"><span class="chip-dot" style="background:#efecec"></span>Keras</span>
+          </div>
+        </div>
+        <div class="skills-group">
+          <h4>Web & Cloud</h4>
+          <div class="skill-chips">
+            <span class="chip"><span class="chip-dot" style="background:#61DAFB"></span>React</span>
+            <span class="chip"><span class="chip-dot" style="background:#005571"></span>FastAPI</span>
+            <span class="chip"><span class="chip-dot" style="background:#646CFF"></span>Vite</span>
+            <span class="chip"><span class="chip-dot" style="background:#6DA55F"></span>Node.js</span>
+            <span class="chip"><span class="chip-dot" style="background:#FF9900"></span>AWS</span>
+            <span class="chip"><span class="chip-dot" style="background:#4285F4"></span>GCP</span>
+            <span class="chip"><span class="chip-dot" style="background:#0db7ed"></span>Docker</span>
+          </div>
+        </div>
+        <div class="skills-group">
+          <h4>Databases</h4>
+          <div class="skill-chips">
+            <span class="chip"><span class="chip-dot" style="background:#316192"></span>PostgreSQL</span>
+            <span class="chip"><span class="chip-dot" style="background:#4ea94b"></span>MongoDB</span>
+            <span class="chip"><span class="chip-dot" style="background:#008CC1"></span>Neo4j</span>
+            <span class="chip"><span class="chip-dot" style="background:#3ECF8E"></span>Supabase</span>
+          </div>
+        </div>
+        <div class="skills-group">
+          <h4>Tools & Platforms</h4>
+          <div class="skill-chips">
+            <span class="chip"><span class="chip-dot" style="background:#F05033"></span>Git</span>
+            <span class="chip"><span class="chip-dot" style="background:#76B900"></span>NVIDIA CUDA</span>
+            <span class="chip"><span class="chip-dot" style="background:#313131"></span>Unreal Engine 5</span>
+            <span class="chip"><span class="chip-dot" style="background:#F5792A"></span>Blender</span>
+            <span class="chip"><span class="chip-dot" style="background:#F24E1E"></span>Figma</span>
+            <span class="chip"><span class="chip-dot" style="background:#00979D"></span>Arduino</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <footer>
-        <p>&copy; 2025 Gursharn Singh. Built with ❤️ using GitHub Pages.</p>
-        <p>
-          Connect with me on
-          <a
-            href="https://github.com/GURSHARN219"
-            style="color: #fff; text-decoration: underline"
-            >GitHub</a
-          >
-        </p>
-      </footer>
+<!-- ═══ PROJECTS ═══════════════════════════════════════════════════════════ -->
+<section id="projects">
+  <div class="section-inner">
+    <p class="section-label">// personal.repos</p>
+    <h2 class="section-title">My <em>Projects</em></h2>
+
+    <div class="filter-bar">
+      <div class="search-wrap">
+        <i class="fas fa-search"></i>
+        <input class="search-input" id="searchInput" type="text" placeholder="search repositories..." />
+      </div>
+      <div class="lang-filters" id="langFilters">
+        <button class="lang-btn active" data-lang="all">All</button>
+      </div>
+      <select class="sort-select" id="sortSelect">
+        <option value="updated">Sort: Recent</option>
+        <option value="stars">Sort: Stars</option>
+        <option value="name">Sort: Name A–Z</option>
+      </select>
+      <label class="fork-toggle" id="forkToggle" title="Show forked repos">
+        <span class="toggle-switch"></span>
+        Show forks
+      </label>
     </div>
 
-    <script>
-      // Add smooth scrolling
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-          e.preventDefault();
-          document.querySelector(this.getAttribute("href")).scrollIntoView({
-            behavior: "smooth",
-          });
-        });
+    <p class="results-count" id="resultsCount">Loading repositories…</p>
+    <div class="projects-grid" id="projectsGrid">
+      <div class="skeleton-card"><div class="skel skel-title"></div><div class="skel skel-text"></div><div class="skel skel-text w80"></div><div class="skel skel-text w50"></div><div class="skel skel-meta"></div></div>
+      <div class="skeleton-card"><div class="skel skel-title"></div><div class="skel skel-text"></div><div class="skel skel-text w80"></div><div class="skel skel-text w50"></div><div class="skel skel-meta"></div></div>
+      <div class="skeleton-card"><div class="skel skel-title"></div><div class="skel skel-text"></div><div class="skel skel-text w80"></div><div class="skel skel-text w50"></div><div class="skel skel-meta"></div></div>
+      <div class="skeleton-card"><div class="skel skel-title"></div><div class="skel skel-text"></div><div class="skel skel-text w80"></div><div class="skel skel-text w50"></div><div class="skel skel-meta"></div></div>
+      <div class="skeleton-card"><div class="skel skel-title"></div><div class="skel skel-text"></div><div class="skel skel-text w80"></div><div class="skel skel-text w50"></div><div class="skel skel-meta"></div></div>
+      <div class="skeleton-card"><div class="skel skel-title"></div><div class="skel skel-text"></div><div class="skel skel-text w80"></div><div class="skel skel-text w50"></div><div class="skel skel-meta"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ORG ════════════════════════════════════════════════════════════════ -->
+<section id="org">
+  <div class="section-inner">
+    <p class="section-label">// organization.repos</p>
+    <h2 class="section-title"><em>unworldX</em> — Org Projects</h2>
+
+    <div class="org-header">
+      <img class="org-avatar" id="orgAvatar" src="https://avatars.githubusercontent.com/u/179328101?v=4" alt="unworldX" />
+      <div class="org-info">
+        <h3>unworldX</h3>
+        <p>Building the next generation of intelligent software — AI editors, learning platforms, and creative interfaces.</p>
+      </div>
+      <a href="https://github.com/unworldX" target="_blank" class="btn btn-outline org-link" style="flex-shrink:0">
+        <i class="fab fa-github"></i> View Org
+      </a>
+    </div>
+
+    <div class="projects-grid" id="orgGrid">
+      <div class="skeleton-card"><div class="skel skel-title"></div><div class="skel skel-text"></div><div class="skel skel-text w80"></div><div class="skel skel-meta"></div></div>
+      <div class="skeleton-card"><div class="skel skel-title"></div><div class="skel skel-text"></div><div class="skel skel-text w80"></div><div class="skel skel-meta"></div></div>
+      <div class="skeleton-card"><div class="skel skel-title"></div><div class="skel skel-text"></div><div class="skel skel-text w80"></div><div class="skel skel-meta"></div></div>
+      <div class="skeleton-card"><div class="skel skel-title"></div><div class="skel skel-text"></div><div class="skel skel-text w80"></div><div class="skel skel-meta"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══════════════════════════════════════════════════════════ -->
+<section id="contact">
+  <div class="section-inner">
+    <p class="section-label">// let's.connect</p>
+    <h2 class="section-title">Get In <em>Touch</em></h2>
+    <div class="contact-grid">
+      <a class="contact-card" href="https://github.com/GURSHARN219" target="_blank">
+        <div class="contact-icon dark"><i class="fab fa-github"></i></div>
+        <div><div class="contact-label">GitHub</div><div class="contact-value">@GURSHARN219</div></div>
+      </a>
+      <a class="contact-card" href="https://x.com/Gursharn_sidhu_" target="_blank">
+        <div class="contact-icon dark"><i class="fab fa-x-twitter"></i></div>
+        <div><div class="contact-label">X / Twitter</div><div class="contact-value">@Gursharn_sidhu_</div></div>
+      </a>
+      <a class="contact-card" href="https://instagram.com/_tempstox_" target="_blank">
+        <div class="contact-icon red"><i class="fab fa-instagram"></i></div>
+        <div><div class="contact-label">Instagram</div><div class="contact-value">@_tempstox_</div></div>
+      </a>
+      <a class="contact-card" href="https://www.youtube.com/@tempstox" target="_blank">
+        <div class="contact-icon red"><i class="fab fa-youtube"></i></div>
+        <div><div class="contact-label">YouTube</div><div class="contact-value">@tempstox</div></div>
+      </a>
+      <a class="contact-card" href="mailto:tempstox@gmail.com">
+        <div class="contact-icon violet"><i class="fas fa-envelope"></i></div>
+        <div><div class="contact-label">Email</div><div class="contact-value">tempstox@gmail.com</div></div>
+      </a>
+      <a class="contact-card" href="https://github.com/unworldX" target="_blank">
+        <div class="contact-icon cyan"><i class="fas fa-building"></i></div>
+        <div><div class="contact-label">Organization</div><div class="contact-value">unworldX</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═════════════════════════════════════════════════════════════ -->
+<footer>
+  <p style="margin-bottom:8px">
+    Built by <span>Gursharn Singh</span> · Powered by the
+    <a href="https://docs.github.com/en/rest" target="_blank">GitHub API</a>
+  </p>
+  <p>© 2025 · <a href="https://github.com/GURSHARN219">@GURSHARN219</a> · <a href="https://github.com/unworldX">unworldX</a></p>
+</footer>
+
+<!-- ─── TOAST ────────────────────────────────────────────────────────────── -->
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════════
+   NEURAL CANVAS BACKGROUND
+   ════════════════════════════════════════════════════════════════════════ */
+(function() {
+  const canvas = document.getElementById('neural-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, nodes = [], mouse = { x: -999, y: -999 };
+  const NUM = 70, MAX_DIST = 160;
+
+  function resize() {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+
+  function initNodes() {
+    nodes = [];
+    for (let i = 0; i < NUM; i++) {
+      nodes.push({
+        x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - .5) * .4, vy: (Math.random() - .5) * .4,
+        r: Math.random() * 2 + 1
       });
+    }
+  }
 
-      // Add loading animation for project cards
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px",
-      };
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    // connections
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if (d < MAX_DIST) {
+          const op = (1 - d / MAX_DIST) * 0.35;
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle = `rgba(139,92,246,${op})`;
+          ctx.lineWidth = .8;
+          ctx.stroke();
+        }
+      }
+      // mouse connections
+      const dx = nodes[i].x - mouse.x;
+      const dy = nodes[i].y - mouse.y;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      if (d < 180) {
+        const op = (1 - d / 180) * 0.6;
+        ctx.beginPath();
+        ctx.moveTo(nodes[i].x, nodes[i].y);
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.strokeStyle = `rgba(6,182,212,${op})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    }
+    // dots
+    nodes.forEach(n => {
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(139,92,246,.7)';
+      ctx.fill();
+    });
+  }
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = "1";
-            entry.target.style.transform = "translateY(0)";
-          }
-        });
-      }, observerOptions);
+  function update() {
+    nodes.forEach(n => {
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > W) n.vx *= -1;
+      if (n.y < 0 || n.y > H) n.vy *= -1;
+    });
+  }
 
-      // Initially hide project cards and observe them
-      document.querySelectorAll(".project-card").forEach((card, index) => {
-        card.style.opacity = "0";
-        card.style.transform = "translateY(30px)";
-        card.style.transition = `opacity 0.6s ease ${
-          index * 0.1
-        }s, transform 0.6s ease ${index * 0.1}s`;
-        observer.observe(card);
-      });
-    </script>
-  </body>
+  function loop() { update(); draw(); requestAnimationFrame(loop); }
+
+  window.addEventListener('resize', () => { resize(); initNodes(); });
+  document.getElementById('hero').addEventListener('mousemove', e => {
+    const r = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+  });
+  document.getElementById('hero').addEventListener('mouseleave', () => { mouse.x = -999; mouse.y = -999; });
+
+  resize(); initNodes(); loop();
+})();
+
+/* ════════════════════════════════════════════════════════════════════════
+   TYPING ANIMATION
+   ════════════════════════════════════════════════════════════════════════ */
+(function() {
+  const lines = [
+    'Building advanced AI reasoning models',
+    'Designing custom programming languages',
+    'Leading unworldX — shaping the future',
+    'Optimizing local LLM inference (vLLM)',
+    'Small-scale jet engines & robotics ✈️',
+    'Python • Rust • C++ • TypeScript • Go',
+  ];
+  let li = 0, ci = 0, del = false;
+  const el = document.getElementById('typingText');
+
+  function type() {
+    const current = lines[li];
+    if (!del) {
+      el.textContent = current.slice(0, ++ci);
+      if (ci === current.length) { del = true; setTimeout(type, 2000); return; }
+      setTimeout(type, 48);
+    } else {
+      el.textContent = current.slice(0, --ci);
+      if (ci === 0) { del = false; li = (li + 1) % lines.length; setTimeout(type, 400); return; }
+      setTimeout(type, 22);
+    }
+  }
+  type();
+})();
+
+/* ════════════════════════════════════════════════════════════════════════
+   LANGUAGE COLORS
+   ════════════════════════════════════════════════════════════════════════ */
+const LANG_COLORS = {
+  Python:'#3776ab', TypeScript:'#3178c6', JavaScript:'#f1e05a',
+  Rust:'#dea584', 'C++':'#f34b7d', C:'#555555', Go:'#00ADD8',
+  Kotlin:'#7F52FF', Java:'#b07219', HTML:'#e34c26', CSS:'#563d7c',
+  Dart:'#00B4AB', 'C#':'#178600', Shell:'#89e051', Ruby:'#701516',
+  Swift:'#F05138', Markdown:'#083fa1', Dockerfile:'#384d54',
+  Vue:'#41b883', Svelte:'#ff3e00', SCSS:'#c6538c',
+};
+function langColor(l) { return LANG_COLORS[l] || '#8899bb'; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   RELATIVE TIME
+   ════════════════════════════════════════════════════════════════════════ */
+function relTime(iso) {
+  const diff = Date.now() - new Date(iso);
+  const d = Math.floor(diff / 86400000);
+  if (d === 0) return 'today';
+  if (d === 1) return 'yesterday';
+  if (d < 7) return d + 'd ago';
+  if (d < 30) return Math.floor(d/7) + 'w ago';
+  if (d < 365) return Math.floor(d/30) + 'mo ago';
+  return Math.floor(d/365) + 'y ago';
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   COUNTER ANIMATION
+   ════════════════════════════════════════════════════════════════════════ */
+function animateCount(el, target, suffix = '') {
+  let start = 0;
+  const step = Math.ceil(target / 40);
+  const t = setInterval(() => {
+    start = Math.min(start + step, target);
+    el.textContent = start + suffix;
+    if (start >= target) clearInterval(t);
+  }, 30);
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   RENDER PROJECT CARD
+   ════════════════════════════════════════════════════════════════════════ */
+function renderCard(repo, delay = 0) {
+  const isFork = repo.fork;
+  const lang = repo.language;
+  const color = langColor(lang);
+  const div = document.createElement('div');
+  div.className = 'project-card';
+  div.style.animationDelay = delay + 'ms';
+  div.innerHTML = `
+    <div class="card-top">
+      <i class="fas ${isFork ? 'fa-code-fork card-icon fork' : 'fa-book-bookmark card-icon'}"></i>
+      <div class="card-badges-top">
+        ${isFork ? '<span class="pill pill-fork">fork</span>' : ''}
+        <span class="pill pill-public">public</span>
+      </div>
+    </div>
+    <div class="card-name">${repo.name}</div>
+    <div class="card-desc ${!repo.description ? 'empty' : ''}">${repo.description || 'No description provided.'}</div>
+    <div class="card-footer">
+      <div class="card-meta">
+        ${lang ? `<span class="lang-chip"><span class="lang-chip-dot" style="background:${color}"></span>${lang}</span>` : ''}
+        ${repo.stargazers_count > 0 ? `<span class="card-stat"><i class="fas fa-star"></i>${repo.stargazers_count}</span>` : ''}
+        ${repo.forks_count > 0 ? `<span class="card-stat"><i class="fas fa-code-branch"></i>${repo.forks_count}</span>` : ''}
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="card-updated">${relTime(repo.updated_at)}</span>
+        <a class="card-link" href="${repo.html_url}" target="_blank" title="Open in GitHub"><i class="fab fa-github"></i></a>
+        ${repo.homepage ? `<a class="card-link" href="${repo.homepage}" target="_blank" title="Live site"><i class="fas fa-arrow-up-right-from-square"></i></a>` : ''}
+      </div>
+    </div>
+  `;
+  return div;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   STATE & FILTERS
+   ════════════════════════════════════════════════════════════════════════ */
+let allRepos = [], activeLang = 'all', showForks = false, sortBy = 'updated';
+
+function filteredRepos() {
+  let r = [...allRepos];
+  if (!showForks) r = r.filter(x => !x.fork);
+  if (activeLang !== 'all') r = r.filter(x => x.language === activeLang);
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  if (q) r = r.filter(x => x.name.toLowerCase().includes(q) || (x.description||'').toLowerCase().includes(q));
+  if (sortBy === 'stars') r.sort((a,b) => b.stargazers_count - a.stargazers_count);
+  else if (sortBy === 'name') r.sort((a,b) => a.name.localeCompare(b.name));
+  else r.sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at));
+  return r;
+}
+
+function renderProjects() {
+  const grid = document.getElementById('projectsGrid');
+  const count = document.getElementById('resultsCount');
+  const repos = filteredRepos();
+  grid.innerHTML = '';
+  if (repos.length === 0) {
+    grid.innerHTML = `<div class="empty-state"><i class="fas fa-satellite-dish"></i><p>No repositories match your filters.</p></div>`;
+    count.innerHTML = 'Showing <span>0</span> repositories';
+    return;
+  }
+  count.innerHTML = `Showing <span>${repos.length}</span> of <span>${allRepos.length}</span> repositories`;
+  repos.forEach((r, i) => grid.appendChild(renderCard(r, i * 60)));
+}
+
+function buildLangFilters() {
+  const langs = [...new Set(allRepos.map(r => r.language).filter(Boolean))].sort();
+  const container = document.getElementById('langFilters');
+  container.innerHTML = `<button class="lang-btn active" data-lang="all">All</button>`;
+  langs.forEach(l => {
+    const btn = document.createElement('button');
+    btn.className = 'lang-btn';
+    btn.dataset.lang = l;
+    btn.innerHTML = `<span class="lang-dot" style="background:${langColor(l)}"></span>${l}`;
+    container.appendChild(btn);
+  });
+  container.addEventListener('click', e => {
+    const btn = e.target.closest('.lang-btn');
+    if (!btn) return;
+    container.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeLang = btn.dataset.lang;
+    renderProjects();
+  });
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   GITHUB API
+   ════════════════════════════════════════════════════════════════════════ */
+const GH_USER = 'GURSHARN219';
+const GH_ORG  = 'unworldX';
+
+async function fetchGitHub() {
+  try {
+    const [userRes, reposRes] = await Promise.all([
+      fetch(`https://api.github.com/users/${GH_USER}`),
+      fetch(`https://api.github.com/users/${GH_USER}/repos?per_page=100&sort=updated`),
+    ]);
+
+    if (!userRes.ok || !reposRes.ok) throw new Error('Rate limited or not found');
+
+    const user = await userRes.json();
+    const repos = await reposRes.json();
+    allRepos = repos;
+
+    // Avatar
+    const imgEl = document.getElementById('heroAvatar');
+    imgEl.src = user.avatar_url;
+    imgEl.onload = () => {
+      document.getElementById('avatarSkel').style.display = 'none';
+      imgEl.style.display = 'block';
+    };
+
+    // Stats
+    const totalStars = repos.reduce((sum, r) => sum + r.stargazers_count, 0);
+    const langs = new Set(repos.map(r => r.language).filter(Boolean));
+
+    const statsGrid = document.getElementById('statsGrid');
+    statsGrid.innerHTML = `
+      <div class="stat-card"><div class="stat-num" id="sRepos">0</div><div class="stat-lbl">Public Repos</div></div>
+      <div class="stat-card"><div class="stat-num" id="sStars">0</div><div class="stat-lbl">Total Stars</div></div>
+      <div class="stat-card"><div class="stat-num" id="sFollowers">0</div><div class="stat-lbl">Followers</div></div>
+      <div class="stat-card"><div class="stat-num" id="sLangs">0</div><div class="stat-lbl">Languages Used</div></div>
+      <div class="stat-card"><div class="stat-num" id="sOrg">—</div><div class="stat-lbl">unworldX Projects</div></div>
+    `;
+    animateCount(document.getElementById('sRepos'), user.public_repos);
+    animateCount(document.getElementById('sStars'), totalStars);
+    animateCount(document.getElementById('sFollowers'), user.followers);
+    animateCount(document.getElementById('sLangs'), langs.size);
+
+    buildLangFilters();
+    renderProjects();
+  } catch(e) {
+    console.warn('GitHub API:', e.message);
+    document.getElementById('resultsCount').innerHTML = '⚠️ Could not load repos (API rate limit). <a href="https://github.com/GURSHARN219?tab=repositories" target="_blank" style="color:var(--accent)">View on GitHub →</a>';
+    document.getElementById('projectsGrid').innerHTML = `<div class="empty-state"><i class="fas fa-triangle-exclamation"></i><p>GitHub API rate limit hit. Try refreshing later.</p></div>`;
+  }
+}
+
+async function fetchOrgRepos() {
+  try {
+    const res = await fetch(`https://api.github.com/orgs/${GH_ORG}/repos?sort=updated&per_page=20`);
+    if (!res.ok) throw new Error();
+    const repos = await res.json();
+    const grid = document.getElementById('orgGrid');
+    grid.innerHTML = '';
+
+    // Update org stat
+    const sOrg = document.getElementById('sOrg');
+    if (sOrg) animateCount(sOrg, repos.length);
+
+    if (!repos.length) {
+      grid.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i><p>No public repositories yet.</p></div>`;
+      return;
+    }
+    repos.forEach((r, i) => grid.appendChild(renderCard(r, i * 80)));
+  } catch(e) {
+    document.getElementById('orgGrid').innerHTML = `<div class="empty-state"><i class="fas fa-triangle-exclamation"></i><p>Could not load org repos.</p></div>`;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   EVENT LISTENERS
+   ════════════════════════════════════════════════════════════════════════ */
+document.getElementById('searchInput').addEventListener('input', renderProjects);
+document.getElementById('sortSelect').addEventListener('change', e => { sortBy = e.target.value; renderProjects(); });
+document.getElementById('forkToggle').addEventListener('click', function() {
+  showForks = !showForks;
+  this.classList.toggle('on', showForks);
+  renderProjects();
+});
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+/* ════════════════════════════════════════════════════════════════════════
+   NAV SHRINK ON SCROLL
+   ════════════════════════════════════════════════════════════════════════ */
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').style.background =
+    window.scrollY > 50 ? 'rgba(6,8,16,.95)' : 'rgba(6,8,16,.75)';
+});
+
+/* ════════════════════════════════════════════════════════════════════════
+   SCROLL REVEAL
+   ════════════════════════════════════════════════════════════════════════ */
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.skills-group, .contact-card, .stat-card').forEach(el => {
+  el.style.opacity = '0'; el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity .5s ease, transform .5s ease';
+  revealObs.observe(el);
+});
+
+/* ════════════════════════════════════════════════════════════════════════
+   TOAST
+   ════════════════════════════════════════════════════════════════════════ */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   INIT
+   ════════════════════════════════════════════════════════════════════════ */
+fetchGitHub();
+fetchOrgRepos();
+</script>
+</body>
 </html>
