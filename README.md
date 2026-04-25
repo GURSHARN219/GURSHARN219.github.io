@@ -20,24 +20,23 @@ I'm **Gursharn Singh** (aka `tempstox`) from **Punjab, India** — a systems bui
 gursharn = {
     "currently_building": [
         "Neuralus — advanced AI reasoning model",
-        "AETHER & oglang — custom programming languages from scratch",
+        "AETHER & oglang — custom vibecode programming languages from scratch",
         "LLM fine-tuning pipelines on consumer hardware",
         "Agentic AI systems with multi-protocol orchestration",
     ],
     "looking_to_collaborate_on": [
         "Multi-modal AI systems",
-        "Open-source systems programming (C++ / Rust)",
+        "Open-source systems programming (Python / Rust / Go lang)",
         "Combat robotics",
     ],
     "currently_learning": [
         "Advanced deep learning architectures (CNNs / RNNs)",
         "Hardware-level GPU integration & CUDA",
         "Unreal Engine 5",
-        "Compiler backend optimization",
     ],
     "fun_facts": [
-        "I design small-scale jet engines ✈️",
-        "I build programming languages from scratch 🛠️",
+        "I design small-scale jet engines ",
+        "I vibecode programming languages from scratch on c",
     ],
     "development_rig": "MSI Sword 16HX (RTX 4060)S"
 }
@@ -45,93 +44,6 @@ gursharn = {
 
 ---
 
-## 🚀 Featured Projects
-
-### Personal
-
-<table>
-<tr>
-<td width="50%" valign="top">
-
-#### 🎤 [Sophia AI Assistant](https://github.com/GURSHARN219/AI_voice_Assistant_both_cloud_local)
-A sophisticated voice-enabled AI companion built in Python. Features real-time speech recognition (Faster-Whisper), neural TTS (Kokoro), and smart cloud/local LLM fallback (OpenRouter ↔ LM Studio). Ships with a modern CustomTkinter GUI, voice activity detection, and live STT/LLM/TTS status indicators.
-
-`Python` `Faster-Whisper` `Kokoro TTS` `OpenRouter` `CustomTkinter` `PyTorch`
-
-</td>
-<td width="50%" valign="top">
-
-#### 🗣️ [Realtime Speech · Text · Img2Speech](https://github.com/GURSHARN219/realtime_speech-text-img2Speech)
-A real-time Python pipeline combining speech recognition, text processing, and image-to-speech synthesis in a single unified system.
-
-`Python` `Speech Recognition` `TTS` `OpenCV` `Real-time Processing`
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-#### 🖥️ [Hosting Manager](https://github.com/GURSHARN219/hosting-manage)
-A beginner-friendly web hosting management dashboard for controlling multiple websites across multiple servers from one clean interface. Built with TypeScript, React, Vite, and Tailwind CSS.
-
-`TypeScript` `React` `Vite` `Tailwind CSS`
-
-</td>
-<td width="50%" valign="top">
-
-#### 🌐 [Portfolio](https://github.com/GURSHARN219/GURSHARN219.github.io)
-Personal portfolio website — live at [gursharn219.github.io](https://GURSHARN219.github.io).
-
-`HTML` `CSS` `JavaScript`
-
-</td>
-</tr>
-</table>
-
----
-
-### 🏢 [unworldX](https://github.com/unworldX) — Organization Projects
-
-<table>
-<tr>
-<td width="50%" valign="top">
-
-#### 🤖 [ai-editor-vision](https://github.com/unworldX/ai-editor-vision)
-An AI-powered code editor built on Monaco Editor. Supports multi-provider LLM integration (OpenAI, local models), context-aware code completion, natural language code generation, refactoring assistance, and documentation generation — all in a polished TypeScript/React/Vite frontend.
-
-`TypeScript` `React` `Monaco Editor` `Zustand` `Vite` `Multi-LLM`
-
-</td>
-<td width="50%" valign="top">
-
-#### 💡 [bright-mind-central](https://github.com/unworldX/bright-mind-central)
-Central platform hub for unworldX's educational and intelligence tooling suite, built with TypeScript.
-
-`TypeScript` `React` `Vite`
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-#### 📚 [learn-flow-verse](https://github.com/unworldX/learn-flow-verse)
-A structured learning flow platform — interactive, versioned, and built to guide users through knowledge paths in a modern TypeScript stack.
-
-`TypeScript` `React` `Vite`
-
-</td>
-<td width="50%" valign="top">
-
-#### ✨ [stellar-canvas-interface](https://github.com/unworldX/stellar-canvas-interface)
-A visually rich canvas-based UI interface — the creative front-end layer for unworldX's ecosystem. Built with TypeScript.
-
-`TypeScript` `React` `Vite` `Canvas API`
-
-</td>
-</tr>
-</table>
-
----
 
 ## 🛠️ Tech Stack
 
